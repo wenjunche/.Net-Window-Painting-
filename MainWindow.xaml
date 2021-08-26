@@ -7,9 +7,11 @@
         xmlns:local="clr-namespace:WpfApp5"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="600">
-    <DockPanel >
+    <DockPanel x:Name="MyDockPanel">
         <StackPanel DockPanel.Dock="Left" VerticalAlignment="Top" Width="100">
-            <Button Content="Button" Click="Button_Click"/>
+            <Button Content="New Window" Click="Button_Click"/>
+            <Button Content="New Application" Click="Button_Click_1"/>
+            <Button Content="Navigate" Click="Button_Click_2"/>
         </StackPanel>
         <OpenFin:EmbeddedView DockPanel.Dock="Right" x:Name="OpenFinEmbeddedView"/>
     </DockPanel>
