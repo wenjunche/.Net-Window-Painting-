@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Fin = Openfin.Desktop;
 
+
 namespace WpfApp5
 {
     /// <summary>
@@ -21,6 +22,8 @@ namespace WpfApp5
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Openfin.Desktop.RuntimeOptions runtimeOptions;
+
         const string RuntimeVersion = "20.91.63.5";
         const string AppUuid = "hyper-grid-uuid";
         const string AppName = "hyper-grid";
@@ -29,7 +32,7 @@ namespace WpfApp5
         {
             InitializeComponent();
 
-            var runtimeOptions = new Fin.RuntimeOptions
+            runtimeOptions = new Fin.RuntimeOptions
             {
                 Version = RuntimeVersion,
                 EnableRemoteDevTools = true,
@@ -38,9 +41,41 @@ namespace WpfApp5
 
             var fin = Fin.Runtime.GetRuntimeInstance(runtimeOptions);
 
-            var appOptions = new Openfin.Desktop.ApplicationOptions("clock", "clock", "https://www.timeanddate.com/worldclock/");
+            var appOptions = new Openfin.Desktop.ApplicationOptions("clock", "clock", "https://install-staging.openfin.co/health/");
 
             OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var win = new OfWindow();
+
+                // OpenFinEmbeddedView.OpenfinApplication.close(false, null, (err) =>
+                // {
+                //     Console.WriteLine(err);
+                // });
+
+                win.Loaded += (senderr, ee) =>
+                {
+                    try
+                    {
+
+                        win.OpenFinEmbeddedView.Initialize(runtimeOptions, this.OpenFinEmbeddedView.OpenfinApplication, new Openfin.Desktop.WindowOptions(System.Guid.NewGuid().ToString(), "https://install-staging.openfin.co/health/"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                };
+
+                win.Show();
+            }
+            catch
+            {
+
+            }
         }
     }
 }
