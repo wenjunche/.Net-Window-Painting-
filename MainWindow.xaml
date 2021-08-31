@@ -12,7 +12,10 @@
             <Button Content="New Window" Click="Button_Click"/>
             <Button Content="New Application" Click="Button_Click_1"/>
             <Button Content="Navigate" Click="Button_Click_2"/>
+            <Button Content="Show/hide" VerticalAlignment="Top" Click="Button_Click_3"/>
+            <Label Name="QueryString" Content="Hi There" />
         </StackPanel>
-        <OpenFin:EmbeddedView DockPanel.Dock="Right" x:Name="OpenFinEmbeddedView"/>
+        <OpenFin:EmbeddedView DockPanel.Dock="Right" x:Name="OpenFinEmbeddedView" />
+        
     </DockPanel>
 </Window>
