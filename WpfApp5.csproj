@@ -95,6 +95,7 @@
     <Compile Include="OfWindow.xaml.cs">
       <DependentUpon>OfWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OpenFinEmbeddedView\Initialized.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
