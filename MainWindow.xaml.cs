@@ -47,23 +47,30 @@ namespace WpfApp5
             var fin = Fin.Runtime.GetRuntimeInstance(runtimeOptions);
 
             var appOptions = new Openfin.Desktop.ApplicationOptions("clock", "clock", "https://boring-einstein-340ab6.netlify.app/?test=Hello_world!");
+            appOptions.MainWindowOptions.SetProperty("backgroundThrottling ", false);
 
-            
-            OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
             OpenFinEmbeddedView.Initialized += OpenFinEmbeddedView_Initialized;
-            
+            OpenFinEmbeddedView.Ready += OpenFinEmbeddedView_Ready;
+            OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);            
+
+        }
+
+        private void OpenFinEmbeddedView_Ready(object sender, EventArgs e)
+        {
+            OpenFinEmbeddedView.IsVisibleChanged += OpenFinEmbeddedView_IsVisibleChanged;
         }
 
         private void OpenFinEmbeddedView_Initialized(object sender, EventArgs e)
         {
-           OpenFinEmbeddedView.OffScreenRenderMode = Openfin.WPF.OffScreenRenderMode.None;
+           //Bug, this does not fire.
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var windowOptions = new Openfin.Desktop.WindowOptions(System.Guid.NewGuid().ToString(), "https://install-staging.openfin.co/health/");
+
             
-            
+                 
             try
             {
                 var win = new OfWindow();
@@ -91,6 +98,14 @@ namespace WpfApp5
             catch
             {
 
+            }
+        }
+
+        private void OpenFinEmbeddedView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (OpenFinEmbeddedView.IsVisible)
+            {
+                OpenFinEmbeddedView.OpenfinWindow.show();
             }
         }
 
@@ -124,6 +139,7 @@ namespace WpfApp5
             int randomQueryStringParam = r.Next(100000, 1000000000);
             QueryString.Content = randomQueryStringParam;
             OpenFinEmbeddedView.OpenfinWindow.navigate($"https://boring-einstein-340ab6.netlify.app/?test={randomQueryStringParam}");
+            
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -135,6 +151,9 @@ namespace WpfApp5
             }
             else {
                 OpenFinEmbeddedView.Visibility = Visibility.Visible;
+                //OpenFinEmbeddedView.OpenfinWindow.show();
+                
+
             }
 
             showOF = !showOF;
