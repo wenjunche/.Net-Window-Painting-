@@ -14,21 +14,23 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Fin = Openfin.Desktop;
 using System.Drawing;
-
+using Openfin.WPF;
+using Openfin.Desktop;
 
 namespace WpfApp5
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         private bool showOF = true;
         private Openfin.Desktop.RuntimeOptions runtimeOptions;
-
+        private ApplicationOptions appOptions;
         const string RuntimeVersion = "20.91.63.5";
         const string AppUuid = "hyper-grid-uuid";
         const string AppName = "hyper-grid";
+
 
         public MainWindow()
         {
@@ -46,12 +48,13 @@ namespace WpfApp5
 
             var fin = Fin.Runtime.GetRuntimeInstance(runtimeOptions);
 
-            var appOptions = new Openfin.Desktop.ApplicationOptions("clock", "clock", "https://boring-einstein-340ab6.netlify.app/?test=Hello_world!");
+            appOptions = new Openfin.Desktop.ApplicationOptions("clock", "clock", "https://boring-einstein-340ab6.netlify.app/?test=Hello_world!");
             appOptions.MainWindowOptions.SetProperty("backgroundThrottling ", false);
 
             OpenFinEmbeddedView.Initialized += OpenFinEmbeddedView_Initialized;
             OpenFinEmbeddedView.Ready += OpenFinEmbeddedView_Ready;
-            OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);            
+            OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
+
 
         }
 
@@ -133,13 +136,19 @@ namespace WpfApp5
             win.Show();
         }
 
+        EmbeddedView newView;
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             Random r = new Random();
             int randomQueryStringParam = r.Next(100000, 1000000000);
+       
             QueryString.Content = randomQueryStringParam;
+
+            // *** Embedded view replacement code ***
+            // This code news up a new instance of the embedded view
+            OpenFinEmbeddedView = new EmbeddedView();
+            OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
             OpenFinEmbeddedView.OpenfinWindow.navigate($"https://boring-einstein-340ab6.netlify.app/?test={randomQueryStringParam}");
-            
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
