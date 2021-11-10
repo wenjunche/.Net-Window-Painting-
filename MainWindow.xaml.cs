@@ -148,6 +148,7 @@ namespace WpfApp5
             // This code news up a new instance of the embedded view
             OpenFinEmbeddedView = new EmbeddedView();
             OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
+
             OpenFinEmbeddedView.OpenfinWindow.navigate($"https://boring-einstein-340ab6.netlify.app/?test={randomQueryStringParam}");
         }
 
