@@ -48,12 +48,15 @@ namespace WpfApp5
 
             var fin = Fin.Runtime.GetRuntimeInstance(runtimeOptions);
 
+           
+
             appOptions = new Openfin.Desktop.ApplicationOptions("clock", "clock", "https://boring-einstein-340ab6.netlify.app/?test=Hello_world!");
             appOptions.MainWindowOptions.SetProperty("backgroundThrottling ", false);
 
             OpenFinEmbeddedView.Initialized += OpenFinEmbeddedView_Initialized;
             OpenFinEmbeddedView.Ready += OpenFinEmbeddedView_Ready;
             OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
+            OpenFinEmbeddedView.RepaintOnVisable = true;
 
 
         }
@@ -144,12 +147,12 @@ namespace WpfApp5
        
             QueryString.Content = randomQueryStringParam;
 
-            // *** Embedded view replacement code ***
-            // This code news up a new instance of the embedded view
-            OpenFinEmbeddedView = new EmbeddedView();
-            OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
+
+            
 
             OpenFinEmbeddedView.OpenfinWindow.navigate($"https://boring-einstein-340ab6.netlify.app/?test={randomQueryStringParam}");
+
+        
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -161,7 +164,7 @@ namespace WpfApp5
             }
             else {
                 OpenFinEmbeddedView.Visibility = Visibility.Visible;
-                //OpenFinEmbeddedView.OpenfinWindow.show();
+                OpenFinEmbeddedView.OpenfinWindow.show();
                 
 
             }
