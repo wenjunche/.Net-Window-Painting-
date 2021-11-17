@@ -70,7 +70,7 @@ namespace WpfApp5
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var windowOptions = new Openfin.Desktop.WindowOptions(System.Guid.NewGuid().ToString(), "https://install-staging.openfin.co/health/");
+//            var windowOptions = new Openfin.Desktop.WindowOptions(System.Guid.NewGuid().ToString(), "https://install-staging.openfin.co/health/");
 
             
                  
@@ -146,7 +146,7 @@ namespace WpfApp5
 
             // *** Embedded view replacement code ***
             // This code news up a new instance of the embedded view
-            OpenFinEmbeddedView = new EmbeddedView();
+//            OpenFinEmbeddedView = new EmbeddedView();
             OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
 
             OpenFinEmbeddedView.OpenfinWindow.navigate($"https://boring-einstein-340ab6.netlify.app/?test={randomQueryStringParam}");
@@ -161,9 +161,7 @@ namespace WpfApp5
             }
             else {
                 OpenFinEmbeddedView.Visibility = Visibility.Visible;
-                //OpenFinEmbeddedView.OpenfinWindow.show();
-                
-
+                // OpenFinEmbeddedView.OpenfinWindow.show();
             }
 
             showOF = !showOF;
