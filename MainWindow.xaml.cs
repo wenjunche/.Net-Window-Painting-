@@ -14,8 +14,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Fin = Openfin.Desktop;
 using System.Drawing;
+
+using System.Windows.Interop;
+using System.Runtime.InteropServices;
+
 using Openfin.WPF;
 using Openfin.Desktop;
+
 
 namespace WpfApp5
 {
@@ -24,7 +29,11 @@ namespace WpfApp5
     /// </summary>
     public partial class MainWindow : System.Windows.Window
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetFocus(IntPtr hWnd);
+
         private bool showOF = true;
+        private bool urlToggle = true;
         private Openfin.Desktop.RuntimeOptions runtimeOptions;
         private ApplicationOptions appOptions;
         const string RuntimeVersion = "20.91.63.5";
@@ -41,8 +50,8 @@ namespace WpfApp5
                 Version = RuntimeVersion,
                 EnableRemoteDevTools = true,
                 RuntimeConnectTimeout = 20000,
-                Arguments = "--disable-gpu",
-                SecurityRealm = Guid.NewGuid().ToString(),
+                Arguments = "--disable-gpu --disablex-software-rasterizer",
+//                SecurityRealm = Guid.NewGuid().ToString(),
                 RemoteDevToolsPort = 9090,
             };
 
@@ -108,7 +117,7 @@ namespace WpfApp5
         {
             if (OpenFinEmbeddedView.IsVisible)
             {
-                OpenFinEmbeddedView.OpenfinWindow.show();
+//                OpenFinEmbeddedView.OpenfinWindow.show();
             }
         }
 
@@ -146,10 +155,17 @@ namespace WpfApp5
 
             // *** Embedded view replacement code ***
             // This code news up a new instance of the embedded view
-//            OpenFinEmbeddedView = new EmbeddedView();
-            OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
+            //            OpenFinEmbeddedView.Close();
+            //            OpenFinEmbeddedView = new EmbeddedView();
+            //            OpenFinEmbeddedView.Initialize(runtimeOptions, appOptions);
 
-            OpenFinEmbeddedView.OpenfinWindow.navigate($"https://boring-einstein-340ab6.netlify.app/?test={randomQueryStringParam}");
+            //            OpenFinEmbeddedView.OpenfinWindow.navigate($"https://boring-einstein-340ab6.netlify.app/?test={randomQueryStringParam}");
+            var url = urlToggle ? $"https://www.foxnews.com/" : $"https://www.cnn.com/";
+            QueryString.Content = url;
+            urlToggle = !urlToggle;
+            OpenFinEmbeddedView.OpenfinWindow.navigate(url);
+
+            //SetFocus(OpenFinEmbeddedView.OpenfinWindow.Handle);
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -157,10 +173,10 @@ namespace WpfApp5
             if (showOF)
             {
 
-                OpenFinEmbeddedView.Visibility = Visibility.Hidden;
+                OFDockPanel.Visibility = Visibility.Hidden;
             }
             else {
-                OpenFinEmbeddedView.Visibility = Visibility.Visible;
+                OFDockPanel.Visibility = Visibility.Visible;
                 // OpenFinEmbeddedView.OpenfinWindow.show();
             }
 
